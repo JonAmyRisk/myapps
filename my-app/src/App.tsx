@@ -3,7 +3,7 @@ import './App.css';
 import { Sidemenu, type Tool } from './components/Sidemenu';
 import { LandingPage } from './components/LandingPage';
 import { APCalculator } from './components/APCalculator';
-import { TheWall } from './components/TheWall';
+import { TheWall } from './components/WallGame/TheWall';
 
 
 function App() {
