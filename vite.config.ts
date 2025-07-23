@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base:'/myapps/',
   plugins: [react()],
   build: {
     outDir: 'docs',      // ← this makes `npm run build` emit into ./docs
