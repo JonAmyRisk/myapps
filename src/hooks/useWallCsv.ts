@@ -26,7 +26,7 @@ export function useWallCsv() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/data/quizwalls.csv')
+    fetch('./data/quizwalls.csv')
       .then(res => res.text())
       .then(text => {
         const { data: rows } = Papa.parse<CsvRow>(text, {
