@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 
 export interface CsvRow {
-  wallId: string;       // we'll convert to number
+  wallId: string;
   groupIndex: string;
   connection: string;
   clue1: string;
@@ -29,10 +29,15 @@ export function useWallCsv() {
     fetch('/data/quizwalls.csv')
       .then(res => res.text())
       .then(text => {
-        const { data: rows } = Papa.parse<CsvRow>(text, { header: true });
-        // group rows by wallId
+        const { data: rows } = Papa.parse<CsvRow>(text, {
+          header: true,
+          skipEmptyLines: true,
+          transformHeader: (h) => h.replace(/^\uFEFF/, '').trim(),
+        });
+
         const map = new Map<number, WallGroup[]>();
         rows.forEach(r => {
+          // now r.wallId, r.connection, r.clue1, etc. exist
           const wid = parseInt(r.wallId, 10);
           const grp: WallGroup = {
             connection: r.connection,
@@ -41,13 +46,14 @@ export function useWallCsv() {
           if (!map.has(wid)) map.set(wid, []);
           map.get(wid)!.push(grp);
         });
-        // turn into an array of Walls
-        const walls: Wall[] = Array.from(map.values()).map(groups => ({ groups }));
-        setData(walls);
+          const allWallIds = Array.from(map.keys());
+          const randomId = allWallIds[Math.floor(Math.random() * allWallIds.length)];
+          const groups = map.get(randomId)!;
+          setData([{ groups }]);
       })
       .catch(err => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
-
+  
   return { data, loading, error };
 }

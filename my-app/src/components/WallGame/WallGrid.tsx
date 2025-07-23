@@ -5,6 +5,7 @@ interface WallGridProps {
   cells: ClueCell[];
   selectedIndices: number[];
   matchedIndices: number[];
+  expired: boolean;
   onTileClick: (idx: number) => void;
 }
 
@@ -12,6 +13,7 @@ export function WallGrid({
   cells,
   selectedIndices,
   matchedIndices,
+  expired,
   onTileClick,
 }: WallGridProps) {
   return (
@@ -22,6 +24,7 @@ export function WallGrid({
           label={cell.clue}
           selected={selectedIndices.includes(idx)}
           matched={matchedIndices.includes(idx)}
+          disabled={expired}
           onClick={() => onTileClick(idx)}
         />
       ))}

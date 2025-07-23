@@ -4,6 +4,7 @@ interface TileProps {
   label: string;
   selected: boolean;
   matched: boolean;
+  disabled: boolean;
   onClick: () => void;
 }
 
@@ -11,6 +12,7 @@ export function Tile({
   label,
   selected,
   matched,
+  disabled,
   onClick,
 }: TileProps) {
   // decide styles based on state
@@ -33,7 +35,7 @@ export function Tile({
     <Button
       variant={variant}
       onClick={onClick}
-      disabled={false}
+      disabled={disabled}
       sx={{
         width: '100%',
         height: '100%',
@@ -44,7 +46,7 @@ export function Tile({
         }),
       }}
     >
-      {label + matched + selected}
+      {label}
     </Button>
   );
 }
